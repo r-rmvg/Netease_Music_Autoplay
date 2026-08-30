@@ -89,19 +89,27 @@ def print_checklist():
 
 def next_track():
     """
-    发送"下一首"快捷键。
-    网易云音乐桌面版默认全局快捷键：Ctrl+Right（下一首）
-    使用 keyboard 库在底层发送，确保全局快捷键被正确触发。
+    发送系统"下一首"媒体键（VK_MEDIA_NEXT_TRACK）。
+    媒体键是 OS 级别的事件，网易云无论前台/后台/最小化都能响应。
     """
-    keyboard.send("ctrl+right")
+    import ctypes
+    VK_MEDIA_NEXT_TRACK = 0xB0
+    KEYEVENTF_EXTENDEDKEY = 0x0001
+    KEYEVENTF_KEYUP = 0x0002
+    ctypes.windll.user32.keybd_event(VK_MEDIA_NEXT_TRACK, 0, KEYEVENTF_EXTENDEDKEY, 0)
+    ctypes.windll.user32.keybd_event(VK_MEDIA_NEXT_TRACK, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0)
 
 
 def play_pause():
     """
-    发送"播放/暂停"快捷键。
-    网易云音乐桌面版默认全局快捷键：Ctrl+P
+    发送系统"播放/暂停"媒体键（VK_MEDIA_PLAY_PAUSE）。
     """
-    keyboard.send("ctrl+p")
+    import ctypes
+    VK_MEDIA_PLAY_PAUSE = 0xB3
+    KEYEVENTF_EXTENDEDKEY = 0x0001
+    KEYEVENTF_KEYUP = 0x0002
+    ctypes.windll.user32.keybd_event(VK_MEDIA_PLAY_PAUSE, 0, KEYEVENTF_EXTENDEDKEY, 0)
+    ctypes.windll.user32.keybd_event(VK_MEDIA_PLAY_PAUSE, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0)
 
 
 def run(total_songs: int):
